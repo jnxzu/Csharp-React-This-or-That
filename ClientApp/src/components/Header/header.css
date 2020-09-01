@@ -1,0 +1,33 @@
+header {
+  width: 100%;
+  height: 6vh;
+  line-height: 6vh;
+  background: var(--purp);
+  display: flex;
+}
+
+.header-font {
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  color: var(--white);
+}
+.header-font:active,
+.header-font:focus {
+  outline: none;
+}
+
+.header-logo {
+  flex: 1;
+  padding-left: 1vw;
+  font-size: x-large;
+  font-weight: 700;
+}
+
+.header-submit {
+  padding-right: 2vw;
+}
+
+.header-admin {
+  padding: 0 1vw;
+  font-weight: 200;
+}

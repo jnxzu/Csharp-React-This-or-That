@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using ThisOrThat.Models;
+using ThisOrThat.Services;
 
 namespace ThisOrThat
 {
@@ -20,6 +22,10 @@ namespace ThisOrThat
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<DBConfig>(Configuration.GetSection(nameof(DBConfig)));
+            services.AddSingleton<IDBConfig>(sp => sp.GetRequiredService<IOptions<DBConfig>>().Value);
+            services.AddSingleton<CardItemService>();
 
             services.AddControllersWithViews();
 
@@ -44,7 +50,6 @@ namespace ThisOrThat
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
