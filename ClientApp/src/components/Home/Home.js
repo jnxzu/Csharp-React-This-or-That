@@ -15,17 +15,20 @@ export default class Home extends Component {
   }
 
   getCards() {
-    axios
-      .get("/api/carditems")
-      .then((res) => this.setState({ items: res.data }));
+    axios.get("/api/newpair").then((res) => this.setState({ items: res.data }));
   }
 
   render() {
     return (
       <div className="home">
-        {this.state.items.length
-          ? this.state.items.map((item) => <ItemCard item={item} />)
-          : console.log("loading")}
+        {this.state.items.length ? (
+          <div className="home__cards">
+            <ItemCard item={this.state.items[0]} />
+            <ItemCard item={this.state.items[1]} />
+          </div>
+        ) : (
+          <img src="/spinner.gif" alt="loading..."></img>
+        )}
       </div>
     );
   }

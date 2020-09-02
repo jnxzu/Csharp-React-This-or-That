@@ -7,13 +7,14 @@
   box-sizing: border-box;
   font-family: "PT Serif", serif;
 
-  --purp: #242038;
-  --white: #f7f7f2;
-  --red: #fc6471;
-  --gray: #6a6a94;
+  --darkest: #242423;
+  --dark: #333533;
+  --accent: #f5cb5c;
+  --light: #4f5854;
+  --lighter: #e8eddf;
 }
 
 .app {
   height: 100vh;
-  background: var(--gray);
+  background: var(--light);
 }

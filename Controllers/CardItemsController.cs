@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace ThisOrThat.Controllers
 {
-    [Route("api/carditems")]
     [ApiController]
     public class CardItemsController : ControllerBase
     {
@@ -17,23 +16,23 @@ namespace ThisOrThat.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<CardItem>> Get() =>
-            _cardItemService.Get();
-
-        [HttpGet("{id:length(24)}", Name = "GetCardItem")]
-        public ActionResult<CardItem> Get(string id)
+        [Route("api/newpair")]
+        public ActionResult<List<CardItem>> GetNewPair()
         {
-            var cardItem = _cardItemService.Get(id);
-
-            if (cardItem == null)
-            {
-                return NotFound();
-            }
-
-            return cardItem;
+            var resultPair = new List<CardItem>();
+            var first = _cardItemService.GetRandom();
+            resultPair.Add(first);
+            var second = _cardItemService.GetCompeting(first);
+            resultPair.Add(second);
+            return resultPair;
         }
 
+        [HttpGet]
+        [Route("api/getnotapproved")]
+        public ActionResult<List<CardItem>> GetAllNotApproved() => _cardItemService.GetNotApproved();
+
         [HttpPost]
+        [Route("api/create")]
         public ActionResult<CardItem> Create(CardItem cardItem)
         {
             _cardItemService.Create(cardItem);
@@ -41,10 +40,11 @@ namespace ThisOrThat.Controllers
             return CreatedAtRoute("GetCardItem", new { id = cardItem.Id.ToString() }, cardItem);
         }
 
-        [HttpPut("{id:length(24)}")]
+        [HttpPut]
+        [Route("api/update/{id}")]
         public IActionResult Update(string id, CardItem cardItemIn)
         {
-            var cardItem = _cardItemService.Get(id);
+            var cardItem = _cardItemService.GetOne(id);
 
             if (cardItem == null)
             {
@@ -56,10 +56,11 @@ namespace ThisOrThat.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete]
+        [Route("api/delete/{id}")]
         public IActionResult Delete(string id)
         {
-            var cardItem = _cardItemService.Get(id);
+            var cardItem = _cardItemService.GetOne(id);
 
             if (cardItem == null)
             {

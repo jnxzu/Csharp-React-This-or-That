@@ -2,32 +2,32 @@ header {
   width: 100%;
   height: 6vh;
   line-height: 6vh;
-  background: var(--purp);
+  background: var(--dark);
   display: flex;
 }
 
-.header-font {
+.header__font {
   font-family: "Poppins", sans-serif;
   text-decoration: none;
-  color: var(--white);
+  color: var(--accent);
 }
-.header-font:active,
-.header-font:focus {
+.header__font:active,
+.header__font:focus {
   outline: none;
 }
 
-.header-logo {
+.header__logo {
   flex: 1;
   padding-left: 1vw;
   font-size: x-large;
   font-weight: 700;
 }
 
-.header-submit {
+.header__submit {
   padding-right: 2vw;
 }
 
-.header-admin {
+.header__admin {
   padding: 0 1vw;
   font-weight: 200;
 }

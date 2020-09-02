@@ -12,19 +12,17 @@ import "./App.css";
 export default class App extends Component {
   render() {
     return (
-      <div className="app">
-        <Router>
-          <div>
-            <Header />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/admin" component={AdminPanel} />
-              <Route path="/submit" component={SubmitPage} />
-            </Switch>
-          </div>
-        </Router>
-        <Footer />
-      </div>
+      <Router>
+        <div className="app">
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/admin" component={AdminPanel} />
+            <Route path="/submit" component={SubmitPage} />
+          </Switch>
+          <Footer />
+        </div>
+      </Router>
     );
   }
 }
