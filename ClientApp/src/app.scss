@@ -2,17 +2,20 @@
 @import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap");
 
 * {
+  --yello: #ff9b00;
+  --blu: #080074;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "PT Serif", serif;
-
-  --darkest: #242423;
-  --dark: #333533;
-  --accent: #f5cb5c;
-  --light: #4f5854;
-  --lighter: #e8eddf;
 }
 
 .app {
+  height: 100vh;
+  background: black;
+  display: flex;
+
+  @media (max-width: 839px) {
+    flex-direction: column;
+  }
 }
