@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import Home from "./components/Home/Home";
-import AdminPanel from "./components/AdminPanel/AdminPanel";
+import MainPage from "./components/MainPage/MainPage";
+import AdminPage from "./components/AdminPage/AdminPage";
 import SubmitPage from "./components/SubmitPage/SubmitPage";
 
 import "./App.css";
@@ -16,8 +16,8 @@ export default class App extends Component {
         <div className="app">
           <Header />
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/admin" component={AdminPanel} />
+            <Route exact path="/" component={MainPage} />
+            <Route path="/admin" component={AdminPage} />
             <Route path="/submit" component={SubmitPage} />
           </Switch>
           <Footer />

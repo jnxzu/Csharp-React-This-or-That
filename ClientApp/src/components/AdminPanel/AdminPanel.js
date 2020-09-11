@@ -1,7 +1,0 @@
-import React, { Component } from "react";
-
-export default class AdminPanel extends Component {
-  render() {
-    return <p>admin panel</p>;
-  }
-}
