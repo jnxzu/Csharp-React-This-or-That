@@ -1,0 +1,29 @@
+.main {
+  flex: 1;
+  background: radial-gradient(var(--blu), rgb(2, 0, 15), black);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  @media (max-width: 839px) {
+    flex-direction: column;
+  }
+
+  &__vs {
+    cursor: default;
+    background: var(--yello);
+    height: 40px;
+    width: 40px;
+    font-size: larger;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    border-radius: 50%;
+    line-height: 40px;
+    text-align: center;
+    transition: 0.75s ease-out all;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
