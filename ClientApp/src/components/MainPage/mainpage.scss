@@ -1,12 +1,13 @@
 .main {
   flex: 1;
-  background: radial-gradient(var(--blu), rgb(2, 0, 15), black);
+  background: radial-gradient(var(--blu), black);
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
 
   @media (max-width: 839px) {
     flex-direction: column;
+    margin-top: 150px;
   }
 
   &__vs {

@@ -40,16 +40,19 @@ namespace ThisOrThat.Services
             return items.OrderBy(i => Math.Abs(i.Rating - other.Rating)).FirstOrDefault();
         }
 
+        // create new item
         public CardItem Create(CardItem cardItem)
         {
             _cardItems.InsertOne(cardItem);
             return cardItem;
         }
 
+        // update item
         public void Update(string id, CardItem cardItemIn) =>
             _cardItems.ReplaceOne(cardItem => cardItem.Id == id, cardItemIn);
 
-        public void Remove(string id) =>
+        // reject item
+        public void Delete(string id) =>
             _cardItems.DeleteOne(cardItem => cardItem.Id == id);
     }
 }

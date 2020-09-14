@@ -4,9 +4,13 @@
   align-items: center;
   padding: 1em;
 
+  z-index: 999;
+
   @media (max-width: 839px) {
     height: 150px;
     justify-content: space-around;
+    position: fixed;
+    width: 100%;
   }
 
   @media (min-width: 840px) {

@@ -16,7 +16,7 @@ namespace ThisOrThat.Controllers
         }
 
         [HttpGet]
-        [Route("api/newpair")]
+        [Route("pair")]
         public ActionResult<List<CardItem>> GetNewPair()
         {
             var resultPair = new List<CardItem>();
@@ -28,11 +28,11 @@ namespace ThisOrThat.Controllers
         }
 
         [HttpGet]
-        [Route("api/getnotapproved")]
+        [Route("notapproved")]
         public ActionResult<List<CardItem>> GetAllNotApproved() => _cardItemService.GetNotApproved();
 
         [HttpPost]
-        [Route("api/create")]
+        [Route("create")]
         public ActionResult<CardItem> Create(CardItem cardItem)
         {
             _cardItemService.Create(cardItem);
@@ -41,8 +41,8 @@ namespace ThisOrThat.Controllers
         }
 
         [HttpPut]
-        [Route("api/update/{id}")]
-        public IActionResult Update(string id, CardItem cardItemIn)
+        [Route("approve/{id}")]
+        public IActionResult Approve(string id)
         {
             var cardItem = _cardItemService.GetOne(id);
 
@@ -50,15 +50,46 @@ namespace ThisOrThat.Controllers
             {
                 return NotFound();
             }
+
+            cardItem.Approved = true;
+
+            var cardItemIn = cardItem;
 
             _cardItemService.Update(id, cardItemIn);
 
             return NoContent();
         }
 
+        [HttpPut]
+        [Route("choose/{winnerId};{loserId}")]
+        public IActionResult Choose(string winnerId, string loserId)
+        {
+            var winner = _cardItemService.GetOne(winnerId);
+
+            if (winner == null)
+            {
+                return NotFound();
+            }
+
+            var loser = _cardItemService.GetOne(loserId);
+
+            if (loser == null)
+            {
+                return NotFound();
+            }
+
+            winner.Rating++;
+            loser.Rating--;
+
+            _cardItemService.Update(winnerId, winner);
+            _cardItemService.Update(loserId, loser);
+
+            return NoContent();
+        }
+
         [HttpDelete]
-        [Route("api/delete/{id}")]
-        public IActionResult Delete(string id)
+        [Route("reject/{id}")]
+        public IActionResult Reject(string id)
         {
             var cardItem = _cardItemService.GetOne(id);
 
@@ -67,7 +98,7 @@ namespace ThisOrThat.Controllers
                 return NotFound();
             }
 
-            _cardItemService.Remove(cardItem.Id);
+            _cardItemService.Delete(cardItem.Id);
 
             return NoContent();
         }
