@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import ItemCard from "./ItemCard/ItemCard";
+import ItemCard from "../ItemCard/ItemCard";
 import axios from "axios";
+
 import "./mainpage.scss";
 
 export default class MainPage extends Component {

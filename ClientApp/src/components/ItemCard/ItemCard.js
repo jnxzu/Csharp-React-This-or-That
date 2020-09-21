@@ -12,7 +12,7 @@ export default class ItemCard extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.item.imageUrl != this.props.item.imageUrl) {
+    if (prevProps.item.imageUrl !== this.props.item.imageUrl) {
       this.setState({ loading: true });
     }
   }

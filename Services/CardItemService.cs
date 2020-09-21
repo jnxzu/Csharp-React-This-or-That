@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using MongoDB.Bson;
 
 namespace ThisOrThat.Services
 {
@@ -54,5 +55,8 @@ namespace ThisOrThat.Services
         // reject item
         public void Delete(string id) =>
             _cardItems.DeleteOne(cardItem => cardItem.Id == id);
+
+        // get categories
+        public List<String> GetCategories() => _cardItems.Distinct<string>("category", new BsonDocument()).ToList();
     }
 }

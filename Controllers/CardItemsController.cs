@@ -37,7 +37,7 @@ namespace ThisOrThat.Controllers
         {
             _cardItemService.Create(cardItem);
 
-            return CreatedAtRoute("GetCardItem", new { id = cardItem.Id.ToString() }, cardItem);
+            return NoContent();
         }
 
         [HttpPut]
@@ -101,6 +101,13 @@ namespace ThisOrThat.Controllers
             _cardItemService.Delete(cardItem.Id);
 
             return NoContent();
+        }
+
+        [HttpGet]
+        [Route("categories")]
+        public List<string> GetCategories()
+        {
+            return _cardItemService.GetCategories();
         }
     }
 }
