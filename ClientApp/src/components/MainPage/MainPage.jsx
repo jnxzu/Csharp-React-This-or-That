@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ItemCard from "../ItemCard/ItemCard";
 import axios from "axios";
+import ItemCard from "../ItemCard/ItemCard";
 
 import "./mainpage.scss";
 
@@ -21,25 +21,21 @@ export default class MainPage extends Component {
   }
 
   newPair() {
-    axios.get("pair").then((res) =>
-      this.setState({
-        items: res.data,
-        visible: true,
-      })
-    );
+    axios.get("pair").then((res) => this.setState({
+      items: res.data,
+      visible: true,
+    }));
   }
 
   chooseCard(winner, loser) {
     this.setState({ visible: false });
     axios
       .put(
-        `choose/${this.state.items[winner].id};${this.state.items[loser].id}`
+        `choose/${this.state.items[winner].id};${this.state.items[loser].id}`,
       )
-      .then((_) =>
-        setTimeout(() => {
-          this.newPair();
-        }, 1500)
-      );
+      .then(() => setTimeout(() => {
+        this.newPair();
+      }, 1500));
   }
 
   render() {

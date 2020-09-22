@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ItemCard from "../ItemCard/ItemCard";
 import axios from "axios";
+import ItemCard from "../ItemCard/ItemCard";
 
 import "./adminpage.scss";
 
@@ -19,17 +19,14 @@ export default class AdminPage extends Component {
     this.reject = this.reject.bind(this);
   }
 
-  remove() {
-    let array = [...this.state.cards];
-    array.forEach((card) => {
-      if (card.item.id === this.state.selectedId) card.visible = false;
+  componentDidMount() {
+    axios.get("notapproved").then((res) => {
+      const visibilityTable = res.data.map((card) => ({
+        item: card,
+        visible: true,
+      }));
+      this.setState({ cards: visibilityTable });
     });
-    this.setState({ controlPopup: false, cards: array });
-    array = array.filter((card) => card.item.id !== this.state.selectedId);
-    let context = this;
-    setTimeout(() => {
-      this.setState({ cards: array });
-    }, 1500);
   }
 
   approve() {
@@ -42,13 +39,23 @@ export default class AdminPage extends Component {
     axios.delete(`reject/${this.state.selectedId}`);
   }
 
-  componentDidMount() {
-    axios.get("notapproved").then((res) => {
-      const visibilityTable = res.data.map((card) => {
-        return { item: card, visible: true };
-      });
-      this.setState({ cards: visibilityTable });
+  remove() {
+    let array = [...this.state.cards];
+    array = array.map((card) => {
+      let newCard = {};
+      if (card.item.id === this.state.selectedId) {
+        newCard = card;
+        newCard.visible = false;
+        return newCard;
+      }
+      return card;
     });
+    this.setState({ controlPopup: false, cards: array });
+    array = array.filter((card) => card.item.id !== this.state.selectedId);
+    const context = this;
+    setTimeout(() => {
+      context.setState({ cards: array });
+    }, 1500);
   }
 
   render() {
@@ -61,16 +68,22 @@ export default class AdminPage extends Component {
           }
         >
           <button
+            type="submit"
             className="admin__popup__approve"
             onClick={() => this.approve()}
           >
-            Approve {this.state.selectedName}
+            Approve
+            {" "}
+            {this.state.selectedName}
           </button>
           <button
+            type="submit"
             className="admin__popup__reject"
             onClick={() => this.reject()}
           >
-            Reject {this.state.selectedName}
+            Reject
+            {" "}
+            {this.state.selectedName}
           </button>
         </div>
         {this.state.cards.map((card) => (

@@ -1,12 +1,21 @@
 import React, { Component } from "react";
-import ItemCard from "../ItemCard/ItemCard";
 
 import { debounce } from "lodash";
 import axios from "axios";
+import ItemCard from "../ItemCard/ItemCard";
 
 import "./submitpage.scss";
 
 export default class SubmitPage extends Component {
+  handleImageChange = debounce((url) => {
+    this.setState((prevState) => ({
+      newItem: {
+        ...prevState.newItem,
+        imageUrl: url,
+      },
+    }));
+  });
+
   constructor() {
     super();
 
@@ -40,9 +49,9 @@ export default class SubmitPage extends Component {
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+    const { target } = event;
+    const { value } = target;
+    const { name } = target;
 
     this.setState((prevState) => ({
       newItem: {
@@ -52,36 +61,26 @@ export default class SubmitPage extends Component {
     }));
   }
 
-  handleImageChange = debounce((url) => {
-    this.setState((prevState) => ({
-      newItem: {
-        ...prevState.newItem,
-        imageUrl: url,
-      },
-    }));
-  });
-
   handleSubmit(event) {
     event.preventDefault();
     const errors = {};
-    this.setState({ errors: errors });
+    this.setState({ errors });
     const data = this.state.newItem;
 
     const urlTest = new RegExp(
-      "^(https?:\\/\\/)?" +
-        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" +
-        "((\\d{1,3}\\.){3}\\d{1,3}))" +
-        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" +
-        "(\\?[;&a-z\\d%_.~+=-]*)?" +
-        "(\\#[-a-z\\d_]*)?$",
-      "i"
+      "^(https?:\\/\\/)?"
+        + "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|"
+        + "((\\d{1,3}\\.){3}\\d{1,3}))"
+        + "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*"
+        + "(\\?[;&a-z\\d%_.~+=-]*)?"
+        + "(\\#[-a-z\\d_]*)?$",
+      "i",
     );
 
-    if (data.name.length < 1) errors["name"] = "Too short.";
-    if (data.name.length > 30) errors["name"] = "Too long.";
-    if (data.category === "") errors["category"] = true;
-    if (!urlTest.test(data.imageUrl))
-      errors["url"] = "Please provide valid URL.";
+    if (data.name.length < 1) errors.name = "Too short.";
+    if (data.name.length > 30) errors.name = "Too long.";
+    if (data.category === "") errors.category = true;
+    if (!urlTest.test(data.imageUrl)) { errors.url = "Please provide valid URL."; }
 
     if (Object.keys(errors).length === 0 && errors.constructor === Object) {
       axios
@@ -93,7 +92,7 @@ export default class SubmitPage extends Component {
         .then(this.props.history.push("/"));
     } else {
       this.setState({
-        errors: errors,
+        errors,
       });
     }
   }
@@ -104,14 +103,14 @@ export default class SubmitPage extends Component {
         <ItemCard
           item={this.state.newItem}
           visible={
-            this.state.newItem.name.length > 0 ||
-            this.state.newItem.imageUrl.length > 0
+            this.state.newItem.name.length > 0
+            || this.state.newItem.imageUrl.length > 0
           }
         />
 
         <form onSubmit={this.handleSubmit}>
           <select
-            className={this.state.errors["category"] && "error"}
+            className={this.state.errors.category && "error"}
             name="category"
             value={this.state.newItem.category}
             onChange={this.handleInputChange}
@@ -121,29 +120,29 @@ export default class SubmitPage extends Component {
             ))}
           </select>
           <input
-            className={this.state.errors["name"] && "error"}
+            className={this.state.errors.name && "error"}
             name="name"
             type="text"
             value={this.state.newItem.name}
-            placeholder={this.state.errors["name"] || "Name"}
+            placeholder={this.state.errors.name || "Name"}
             onChange={this.handleInputChange}
-          ></input>
+          />
           <input
-            className={this.state.errors["url"] && "error"}
+            className={this.state.errors.url && "error"}
             name="imageUrl"
             type="url"
             value={this.state.newItem.imageUrl}
-            placeholder={this.state.errors["url"] || "Image Url"}
+            placeholder={this.state.errors.url || "Image Url"}
             onChange={(e) => this.handleImageChange(e.target.value)}
-          ></input>
+          />
           <textarea
             rows="5"
             name="description"
             value={this.state.newItem.description}
             placeholder="Description"
             onChange={this.handleInputChange}
-          ></textarea>
-          <input className="btn" type="submit" value="submit"></input>
+          />
+          <input className="btn" type="submit" value="submit" />
         </form>
       </div>
     );

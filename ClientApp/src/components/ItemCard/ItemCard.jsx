@@ -7,7 +7,6 @@ export default class ItemCard extends Component {
     super();
     this.state = {
       loading: true,
-      hash: Date.now(),
     };
   }
 
