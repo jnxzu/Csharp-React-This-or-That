@@ -37,8 +37,15 @@ namespace ThisOrThat.Services
         // get a similarily rated item from same category
         public CardItem GetCompeting(CardItem other)
         {
-            var items = _cardItems.Find<CardItem>(cardItem => cardItem.Category == other.Category && cardItem.Id != other.Id).ToList();
-            return items.OrderBy(i => Math.Abs(i.Rating - other.Rating)).FirstOrDefault();
+            Random rng = new Random();
+            var items = _cardItems.Find<CardItem>(cardItem =>
+            cardItem.Approved
+            && cardItem.Category == other.Category
+            && cardItem.Id != other.Id
+            && cardItem.Rating > other.Rating - other.Rating / 10
+            && cardItem.Rating < other.Rating + other.Rating / 10)
+            .ToList();
+            return items[rng.Next(items.Count)];
         }
 
         // create new item
