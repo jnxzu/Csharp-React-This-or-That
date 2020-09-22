@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import ItemCard from "../ItemCard/ItemCard";
 
+import { PASSWORD } from "../../pw";
+
 import "./adminpage.scss";
 
 export default class AdminPage extends Component {
@@ -12,8 +14,11 @@ export default class AdminPage extends Component {
       selectedName: "",
       selectedId: "",
       controlPopup: false,
+      auth: false,
+      pw: "",
     };
 
+    this.handlePw = this.handlePw.bind(this);
     this.remove = this.remove.bind(this);
     this.approve = this.approve.bind(this);
     this.reject = this.reject.bind(this);
@@ -27,6 +32,22 @@ export default class AdminPage extends Component {
       }));
       this.setState({ cards: visibilityTable });
     });
+  }
+
+  handlePw(event) {
+    const { target } = event;
+    const { value } = target;
+
+    if (value === PASSWORD)
+      this.setState({
+        pw: value,
+        auth: true,
+      });
+    else {
+      this.setState({
+        pw: value,
+      });
+    }
   }
 
   approve() {
@@ -72,33 +93,38 @@ export default class AdminPage extends Component {
             className="admin__popup__approve"
             onClick={() => this.approve()}
           >
-            Approve
-            {" "}
-            {this.state.selectedName}
+            Approve {this.state.selectedName}
           </button>
           <button
             type="submit"
             className="admin__popup__reject"
             onClick={() => this.reject()}
           >
-            Reject
-            {" "}
-            {this.state.selectedName}
+            Reject {this.state.selectedName}
           </button>
         </div>
-        {this.state.cards.map((card) => (
-          <ItemCard
-            visible={card.visible}
-            item={card.item}
-            onClick={() => {
-              this.setState({
-                controlPopup: true,
-                selectedName: card.item.name,
-                selectedId: card.item.id,
-              });
-            }}
-          />
-        ))}
+        {this.state.auth ? (
+          this.state.cards.map((card) => (
+            <ItemCard
+              visible={card.visible}
+              item={card.item}
+              onClick={() => {
+                this.setState({
+                  controlPopup: true,
+                  selectedName: card.item.name,
+                  selectedId: card.item.id,
+                });
+              }}
+            />
+          ))
+        ) : (
+          <input
+            name="password"
+            type="password"
+            value={this.state.pw}
+            onChange={this.handlePw}
+          ></input>
+        )}
       </div>
     );
   }

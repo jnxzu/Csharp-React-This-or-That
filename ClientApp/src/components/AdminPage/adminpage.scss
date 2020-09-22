@@ -1,3 +1,13 @@
+input {
+  background: var(--yello);
+  padding: 0.25rem;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-weight: 700;
+  color: black;
+}
+
 .hide {
   opacity: 0;
 }
