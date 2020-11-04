@@ -30,7 +30,7 @@ namespace ThisOrThat.Services
         public CardItem GetRandom()
         {
             Random rng = new Random();
-            var items = _cardItems.Find<CardItem>(_ => true).ToList();
+            var items = _cardItems.Find<CardItem>(CardItem => CardItem.Approved).ToList();
             return items[rng.Next(items.Count)];
         }
 
