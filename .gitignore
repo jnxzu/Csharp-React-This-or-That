@@ -1,0 +1,10 @@
+appsettings.json
+appsettings.Development.json
+obj
+bin
+node_modules
+build
+publish
+Properties
+.vscode
+pw.js
